@@ -1,0 +1,232 @@
+﻿Project Summary: Network Speed Monitor
+Project Overview
+Network Speed Monitor is a lightweight, Windows-only utility that measures real internet speed while bypassing VPN tunnels. It helps users identify the worst time periods (daily/weekly) for network performance by collecting continuous speed samples and visualizing trends through an intuitive dashboard.
+Problem Statement
+VPNs mask true physical network performance by routing traffic through encrypted tunnels. Users cannot identify if slowdowns come from their ISP, Wi-Fi interference, or the VPN itself. This tool solves that by monitoring physical adapters directly.
+Main Features
+Feature
+	Description
+	VPN-aware polling
+	Automatically detects and filters out virtual/VPN adapters using WMI + route analysis
+	Randomized intervals
+	Polls every 3-5 minutes (prevents alignment with periodic network events)
+	Daily summaries
+	24-hour speed graph with minute-resolution data
+	Weekly trend view
+	7 stacked daily graphs for pattern recognition
+	Worst-time analysis
+	Identifies slowest 15-minute windows per day/week
+	Portable deployment
+	Single EXE + embedded React, runs from USB drive
+	Low resource usage
+	< 30 MB RAM, < 0.5% CPU idle
+	Technology Stack
+Tier
+	Technology
+	Poller
+	Python + psutil + WMI
+	API
+	FastAPI + SQLite
+	Frontend
+	React + Recharts
+	Packaging
+	PyInstaller
+	Service
+	Windows Service (nssm)
+	Team Setup
+Role
+	Responsibilities
+	Effort
+	PM
+	Skeleton, task creation, code review, commenting, integration
+	6-8 hours
+	Backend Engineer
+	Python poller, VPN filtering, SQLite, Windows service
+	5 hours
+	API Engineer
+	FastAPI endpoints, data aggregation queries
+	3 hours
+	Frontend Engineer
+	React dashboard, 7 stacked graphs, API integration
+	5 hours
+	DevOps/QA
+	Test automation, VM validation, packaging, deployment
+	4 hours
+	Target Users
+* Remote workers using corporate VPNs
+* Gamers troubleshooting latency
+* Network administrators monitoring ISP performance
+* Home users identifying Wi-Fi dead zones
+Success Metrics
+* Accurately measures physical speed with VPN active (error < 5%)
+* Runs 7+ days without crash or memory leak
+* User identifies worst daily period within first 24 hours
+* Dashboard loads in < 2 seconds on target machine
+Timeline
+5-6 days from kickoff to production deployment.
+Deliverables
+* Python poller (portable EXE)
+* FastAPI server
+* React dashboard
+* SQLite database schema
+* Deployment scripts
+* User documentation
+________________
+
+
+"Know your true speed, not your tunnel speed."
+
+
+
+
+Project Scenario: Network Speed Monitor
+Phase 1: Concept & Planning (Day 1)
+PM:
+* Write PRD with success metrics
+* Create technical spec (API contracts, data schema)
+* Set up Git repo + issue tracker (GitHub Projects)
+* Create task tickets for each role
+* Schedule kickoff meeting
+Output: docs/prd.md, docs/technical-spec.md, 8-10 tickets
+________________
+
+
+Phase 2: Skeleton & Foundation (Day 2)
+PM:
+* Create repo structure:
+* /backend/poller/
+* /backend/api/
+* /frontend/
+* /scripts/
+* /docs/
+* Write .gitignore, README.md, CONTRIBUTING.md
+* Set up Python virtual env + React template
+* Define SQLite schema
+Backend:
+* Install dependencies (psutil, wmi, fastapi)
+* Stub out poller class (returns fake data)
+Frontend:
+* Create React app + Recharts
+* Stub out 7 stacked graph layout
+DevOps/QA:
+* Set up GitHub Actions (lint + test on PR)
+* Create test Windows VM
+________________
+
+
+Phase 3: Core Development (Day 3-4)
+Day 3 - Backend Focus
+Backend:
+* Implement physical adapter detection (WMI + fallback)
+* Implement polling loop with random intervals (3-5 min)
+* Add SQLite writer with error handling
+* PR created → PM review + comment
+PM:
+* Code review: Check VPN filtering logic
+* Comment on edge cases (no network, adapter removal)
+* Approve after fixes
+DevOps/QA:
+* Write unit tests for adapter filtering
+* Test on VM with VPN active
+Day 4 - API + Frontend Parallel
+API Engineer:
+* Implement FastAPI endpoints: /daily, /week, /worst-times
+* Add aggregation queries (15-min windows)
+* PR review by PM
+Frontend:
+* Fetch API data in React
+* Implement 7 stacked LineChart components
+* Add date picker + auto-refresh
+* PR review by PM
+DevOps/QA:
+* Integration test: poller → API → frontend
+* Performance test: 24-hour run, check memory leak
+* Bug reports → PM prioritize + assign
+________________
+
+
+Phase 4: Integration & Polish (Day 5)
+PM:
+* Merge all feature branches to main
+* Verify end-to-end flow manually
+* Final code review of all components
+Backend:
+* Add Windows service wrapper (nssm)
+* Create install.bat and uninstall.bat
+Frontend:
+* Add loading states + error handling
+* Optimize re-renders (7 graphs can be heavy)
+DevOps/QA:
+* Full regression test
+* Test on clean Windows VM (no dev tools)
+* Document known issues + workarounds
+________________
+
+
+Phase 5: Deployment (Day 6)
+PM:
+* Write deployment guide (docs/deploy.md)
+* Create release checklist
+* Tag v1.0.0
+DevOps/QA:
+* Build PyInstaller EXE
+* Package: speedmon.zip (EXE + API + React build + scripts)
+* Test portable execution from USB drive
+* Deploy to target production machine
+PM:
+* Monitor for 24 hours post-deploy
+* Verify data collection + dashboard
+* Go/No-go decision
+________________
+
+
+Phase 6: Post-Launch (Day 7+)
+PM:
+* Collect feedback from users
+* Prioritize v1.1 features (alerts? email reports?)
+* Schedule bug fix sprint
+DevOps/QA:
+* Set up monitoring (health check endpoint)
+* Automate weekly database backup
+________________
+
+
+Key Artifacts PM Owns
+Artifact
+	Purpose
+	PRD
+	Vision + requirements
+	Technical spec
+	Architecture + API contracts
+	Ticket templates
+	Consistent task creation
+	Code review checklist
+	Quality gates
+	Deployment checklist
+	Release process
+	Retrospective notes
+	Process improvement
+	________________
+
+
+Daily Cadence (30 min standup)
+Time
+	Activity
+	9:30
+	Each member: what I did, what I'll do, blockers
+	9:45
+	PM: re-prioritize tickets, unblock team
+	10:00
+	Code reviews + commenting (PM)
+	Afternoon
+	Deep work (team), pm handles cross-team communication
+	________________
+
+
+Success Criteria
+* Poller runs 24/7 without crash
+* VPN filtering accuracy > 95%
+* React dashboard loads in < 2 seconds
+* 7 stacked graphs render correctly
+* User identifies worst time within 1 day of use
+*
