@@ -21,14 +21,26 @@ py -m venv venv
 pip install -r backend\requirements.txt
 ```
 
-### 2. Poller (stub — fake data)
+### 2. Poller (VPN-aware + HTTP speed test)
 
-Dev mode polls every **10 seconds**:
+Dev mode polls every **10 seconds**; production uses **3–5 minute** random intervals.
 
 ```powershell
 $env:SPEEDMON_DEV = "1"
 py -m backend.poller
 ```
+
+Production (no `SPEEDMON_DEV`):
+
+```powershell
+py -m backend.poller
+```
+
+Optional env (see `.env.example`):
+
+- `SPEEDMON_TEST_URL` — comma-separated download URLs  
+- `SPEEDMON_TEST_MAX_BYTES` — cap bytes per sample (default 1 MiB)  
+- `SPEEDMON_LOG_PATH` — rotating log file  
 
 Database: `data/speedmon.db`
 
