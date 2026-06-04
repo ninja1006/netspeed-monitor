@@ -66,6 +66,18 @@ npm run dev
 
 Open http://localhost:5173
 
+### 5. Windows service (production poller)
+
+Stop any manual poller first. Requires **Administrator** and [NSSM](https://nssm.cc/) (`winget install NSSM.NSSM`).
+
+```bat
+scripts\install-service.bat
+```
+
+Uses **3–5 min** intervals (no `SPEEDMON_DEV`). Logs: `data\poller-service.log`.  
+Uninstall: `scripts\uninstall-service.bat` (Admin).  
+Full details: [docs/deploy.md](docs/deploy.md)
+
 ## QA (Issue #8)
 
 See [docs/integration-test.md](docs/integration-test.md) for E2E, VPN, and soak checklists.
@@ -83,7 +95,7 @@ backend/api/       # FastAPI
 backend/shared/    # SQLite schema + db helpers
 frontend/          # React + Recharts dashboard
 docs/              # PRD, technical spec, tickets
-scripts/           # seed_db, e2e_api_check, run-*.bat
+scripts/           # install-service, uninstall-service, seed_db, run-*.bat
 data/              # Runtime DB (gitignored)
 ```
 
