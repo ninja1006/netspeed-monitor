@@ -66,6 +66,15 @@ npm run dev
 
 Open http://localhost:5173
 
+## QA (Issue #8)
+
+See [docs/integration-test.md](docs/integration-test.md) for E2E, VPN, and soak checklists.
+
+```powershell
+py scripts/seed_db.py --date 2026-06-04
+py scripts/e2e_api_check.py --date 2026-06-04   # API must be running
+```
+
 ## Project layout
 
 ```
@@ -74,7 +83,7 @@ backend/api/       # FastAPI
 backend/shared/    # SQLite schema + db helpers
 frontend/          # React + Recharts dashboard
 docs/              # PRD, technical spec, tickets
-scripts/           # Install / deploy helpers (Phase 5)
+scripts/           # seed_db, e2e_api_check, run-*.bat
 data/              # Runtime DB (gitignored)
 ```
 
