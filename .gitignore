@@ -23,6 +23,7 @@ frontend/build/
 dist/
 build/
 *.spec
+scripts/nssm/
 
 # OS / IDE
 .DS_Store

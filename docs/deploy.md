@@ -78,10 +78,24 @@ Confirm removed: `sc query SpeedMonPoller` → service not found.
 
 ## 6. Post-deploy verification
 
-- [ ] `sc query SpeedMonPoller` → **RUNNING** (after install and after reboot)
-- [ ] `data\poller-service.log` shows `Sample saved` lines
+- [x] `sc query SpeedMonPoller` → **RUNNING** (after install)
+- [x] `sc qc SpeedMonPoller` → **START_TYPE: AUTO_START** (survives reboot)
+- [x] `uninstall-service.bat` removes service cleanly (`sc query` → 1060)
+- [x] `data\poller-service.log` shows `Sample saved` (production `dev_mode=False`)
+- [ ] Reboot smoke test — run when convenient: after login, `sc query SpeedMonPoller` → RUNNING
 - [ ] `GET http://127.0.0.1:8000/health` → `sample_count_24h` increases (API running)
 - [ ] Dashboard charts show data for dates with samples
+
+### Issue #9 sign-off (2026-06-05)
+
+| Test | Result |
+|------|--------|
+| Install (`install-service.bat`) | Pass — SpeedMonPoller RUNNING |
+| Uninstall (`uninstall-service.bat`) | Pass — service removed (sc 1060) |
+| Re-install | Pass |
+| Auto-start config | Pass — `SERVICE_AUTO_START` / `START_TYPE: 2 AUTO_START` |
+| Adapter | Ethernet (physical), ~2–7 Mbps samples |
+| Reboot | Pending next restart (config verified) |
 
 ## 7. Portable / USB mode
 
