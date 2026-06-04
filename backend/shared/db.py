@@ -43,6 +43,10 @@ def insert_sample(
 ) -> None:
     path = db_path or get_db_path()
     when = ts or datetime.now(timezone.utc)
+    if when.tzinfo is None:
+        when = when.replace(tzinfo=timezone.utc)
+    else:
+        when = when.astimezone(timezone.utc)
     ts_text = when.strftime("%Y-%m-%dT%H:%M:%SZ")
     with _connect(path) as conn:
         conn.execute(
