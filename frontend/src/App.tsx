@@ -5,6 +5,7 @@ import {
   getHealth,
   getWeek,
   getWorstTimes,
+  formatApiError,
   type DailyResponse,
   type WeekResponse,
   type WorstWindow,
@@ -25,24 +26,28 @@ export default function App() {
   const [worst, setWorst] = useState<WorstWindow[]>([]);
   const [health, setHealth] = useState<string>("loading");
   const [error, setError] = useState<string | null>(null);
+  const [noData, setNoData] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const load = useCallback(async () => {
     setLoading(true);
     setError(null);
+    setNoData(false);
     try {
-      const [h, d, w, wt] = await Promise.all([
-        getHealth(),
+      const h = await getHealth();
+      setHealth(h.status ?? "ok");
+
+      const [d, w, wt] = await Promise.all([
         getDaily(date),
         getWeek(date),
         getWorstTimes("day", date),
       ]);
-      setHealth(h.status ?? "ok");
       setDaily(d);
       setWeek(w);
       setWorst(wt.windows);
+      setNoData(d === null);
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Failed to load API data");
+      setError(formatApiError(e));
     } finally {
       setLoading(false);
     }
@@ -77,6 +82,11 @@ export default function App() {
 
       {error && <div className="error">{error}</div>}
       {loading && <div className="loading">Loading…</div>}
+      {!loading && !error && noData && (
+        <div className="empty">
+          No samples for {date} yet. Run the poller with <code>SPEEDMON_DEV=1</code> and refresh.
+        </div>
+      )}
 
       {!loading && !error && daily && (
         <section>

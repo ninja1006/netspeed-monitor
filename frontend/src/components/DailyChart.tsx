@@ -27,8 +27,22 @@ export function DailyChart({ points }: Props) {
         <YAxis tick={{ fontSize: 11 }} unit=" Mbps" />
         <Tooltip />
         <Legend />
-        <Line type="monotone" dataKey="download_mbps" name="Download" stroke="#2563eb" dot={false} />
-        <Line type="monotone" dataKey="upload_mbps" name="Upload" stroke="#16a34a" dot={false} />
+        <Line
+          type="monotone"
+          dataKey="download_mbps"
+          name="Download"
+          stroke="#2563eb"
+          dot={false}
+          connectNulls
+        />
+        <Line
+          type="monotone"
+          dataKey="upload_mbps"
+          name="Upload"
+          stroke="#16a34a"
+          dot={false}
+          connectNulls
+        />
       </LineChart>
     </ResponsiveContainer>
   );

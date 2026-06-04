@@ -44,7 +44,7 @@ Optional env (see `.env.example`):
 
 Database: `data/speedmon.db`
 
-### 3. API
+### 3. API (reads real data from SQLite)
 
 ```powershell
 py -m uvicorn backend.api.main:app --reload --host 127.0.0.1 --port 8000
@@ -52,6 +52,9 @@ py -m uvicorn backend.api.main:app --reload --host 127.0.0.1 --port 8000
 
 - Docs: http://127.0.0.1:8000/docs  
 - Health: http://127.0.0.1:8000/health  
+- Daily: http://127.0.0.1:8000/daily?date=YYYY-MM-DD  
+
+Run the poller first so `data/speedmon.db` has samples.
 
 ### 4. Frontend
 
